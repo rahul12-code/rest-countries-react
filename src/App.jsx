@@ -1,6 +1,10 @@
 import React, { useState, createContext, useContext } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Header from "./components/Header";
 import RestCountries from "./components/RestCountries";
+import DetailPage from "./components/DetailPage";
+import DisplayCountries from "./components/DisplayCountries";
 
 // Create Theme Context
 const ThemeContext = createContext();
@@ -16,10 +20,18 @@ const App = () => {
   };
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      <Header />
-      <RestCountries />
-    </ThemeContext.Provider>
+    <>
+      <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<RestCountries />} />
+            <Route path="/:countryName" element={<DetailPage />} />
+          </Routes>
+        </Router>
+      </ThemeContext.Provider>
+
+    </>
   );
 };
 

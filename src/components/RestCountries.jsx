@@ -95,6 +95,7 @@ const RestCountries = () => {
       {/* Display Countries Component */}
       <DisplayCountries
         countriesData={getFilteredCountries()} // Passing filtered data directly
+        allCountriesData = {countriesData}
         loading={loading}
         error={error}
       />

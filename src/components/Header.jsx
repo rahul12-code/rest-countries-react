@@ -2,6 +2,7 @@ import React from "react";
 import DarkModeMoon from "../assets/icons/dark-mode-moon.svg";
 import LightModeMoon from "../assets/icons/light-mode-moon.svg";
 import { useTheme } from "../App";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -16,7 +17,7 @@ const Header = () => {
         }`}
       >
         <h1 className="font-extrabold lg:text-xl md:text-[20px]">
-          <a href="#">Where in the world?</a>
+          <Link to="/">Where in the world?</Link>
         </h1>
 
         <button

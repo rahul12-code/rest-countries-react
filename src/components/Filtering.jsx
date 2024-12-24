@@ -36,18 +36,18 @@ const Filtering = ({
 
   return (
     <>
-      <div className="flex md:pt-4 pb-12 flex-col gap-10 md:gap-0 md:flex-row md:justify-between md:items-center ">
+      <div className="flex md:pt-4 pb-12 flex-col gap-8  md:flex-row  md:items-center ">
         {/* Search Bar */}
         <div
-          className={`w-full md:w-[30%] relative p-3 px-4 rounded-lg shadow-custom flex items-center ${
+          className={`w-full md:w-[30%] md:mr-60 relative p-3 px-4 rounded-lg shadow-custom flex items-center ${
             isDarkMode
-              ? "bg-red-700 text-white"
+              ? "bg-[hsl(209,23%,22%)] text-white"
               : "bg-[hsl(0,0%,100%)] text-black"
           }`}
         >
           <img
             src={Search}
-            className={`h-5 w-5 mr-5 ${isDarkMode ? "filter invert" : ""}`} // Make icon white in dark mode using filter
+            className={`h-5 w-5 mr-5 ${isDarkMode ? "filter invert brightness-0" : "text-gray-500"}`} // Make icon white in dark mode using filter
           />
           <input
             type="text"
@@ -56,7 +56,7 @@ const Filtering = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             className={`w-[90%] focus:outline-none ${
               isDarkMode
-                ? "bg-[hsl(209,23%,22%)] text-white"
+                ? "bg-[hsl(209,23%,22%)] text-white placeholder-white"
                 : "bg-[hsl(0,0%,100%)] text-black"
             }`}
           />
