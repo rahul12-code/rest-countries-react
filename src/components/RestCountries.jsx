@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Filtering from "./Filtering";
 import DisplayCountries from "./DisplayCountries";
+import { useTheme } from "../App";
 
 const RestCountries = () => {
+  const { isDarkMode } = useTheme();
 
   const [countriesData, setCountriesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("Filter by Region");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedSubregion, setSelectedSubregion] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -34,23 +38,47 @@ const RestCountries = () => {
   // Filtering function
   const getFilteredCountries = () => {
     let filtered = countriesData;
-  
+
     if (searchQuery) {
       filtered = filtered.filter((country) =>
-        country.name.common.toLowerCase().includes(searchQuery.toLowerCase().trim())
+        country.name.common
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase().trim())
       );
     }
-  
-    if (selectedRegion !== "Filter by Region") {
-      filtered = filtered.filter((country) => country.region === selectedRegion);
+
+    if (selectedRegion) {
+      filtered = filtered.filter(
+        (country) => country.region === selectedRegion
+      );
     }
-  
+
+    if (selectedSubregion) {
+      filtered = filtered.filter(
+        (country) => country.subregion === selectedSubregion
+      );
+    }
+
+    // Apply sorting based on selected sort order
+    if (sortOrder === "Population low to high") {
+      filtered = filtered.sort((a, b) => a.population - b.population);
+    } else if (sortOrder === "Population high to low") {
+      filtered = filtered.sort((a, b) => b.population - a.population);
+    } else if (sortOrder === "Area low to high") {
+      filtered = filtered.sort((a, b) => a.area - b.area);
+    } else if (sortOrder === "Area high to low") {
+      filtered = filtered.sort((a, b) => b.area - a.area);
+    }
+
     return filtered;
   };
-  
 
   return (
-    <div className="bg-gray-100 bg-opacity-80 lg:p-20 lg:pt-10 p-8 max-w-9xl min-h-dvh">
+    <div
+      className={`lg:p-20 lg:pt-10 p-8 max-w-9xl min-h-dvh ${
+        isDarkMode ? "bg-[hsl(207,26%,17%)]" : "bg-gray-100 bg-opacity-80"
+      }`}
+    >
       {/* Filtering Component */}
       <Filtering
         countriesData={countriesData}
@@ -58,6 +86,10 @@ const RestCountries = () => {
         setSearchQuery={setSearchQuery}
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}
+        selectedSubregion={selectedSubregion}
+        setSelectedSubregion={setSelectedSubregion}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
 
       {/* Display Countries Component */}

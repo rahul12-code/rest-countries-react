@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from "../App";
 
 const DisplayCountries = ({ countriesData, loading, error }) => {
+
+  const { isDarkMode } = useTheme();
   if (countriesData.length === 0) {
     return (
       <p className="text-center font-medium text-[20px]">
@@ -26,28 +29,33 @@ const DisplayCountries = ({ countriesData, loading, error }) => {
         {countriesData.map((country, index) => (
           <div
             key={index}
-            className="border w-[90%] md:h-[380px] lg:h-auto shadow-md rounded-md md:w-full"
+            className="w-[90%] md:h-[380px] lg:h-auto shadow-md md:w-full"
           >
             <img
               src={country.flags?.png}
               className="w-full h-40 lg:h-52 object-cover rounded-t-md"
             />
-            <div className="p-5 pb-10 md:pb-12 lg:pg-10 bg-white">
+            <div className={`p-5 pb-10 md:pb-12 lg:pg-10 
+            rounded-b-md ${
+              isDarkMode
+              ? "bg-[hsl(209,23%,22%)] text-[hsl(0,0%,100%)]"
+              : "bg-[hsl(0,0%,100%)] text-[hsl(200, 15%, 8%)]"
+            }`}>
               <h2 className="font-bold text-[20px] mb-4">
                 {country.name?.common || "Unknown"}
               </h2>
-              <h3 className="text-[16px] mb-1 flex gap-2">
+              <div className="text-[16px] mb-1 flex gap-2">
                 <h3 className="font-semibold">Population:</h3>
                 {country.population || "N/A"}
-              </h3>
-              <h3 className="text-[16px] mb-1 flex gap-2">
+              </div>
+              <div className="text-[16px] mb-1 flex gap-2">
                 <h3 className="font-semibold">Region:</h3>
                 {country.region || "N/A"}
-              </h3>
-              <h3 className="text-[16px] flex gap-2">
+              </div>
+              <div className="text-[16px] flex gap-2">
                 <h3 className="font-semibold">Capital:</h3>
                 {country.capital?.[0] || "N/A"}
-              </h3>
+              </div>
             </div>
           </div>
         ))}

@@ -1,74 +1,105 @@
 import React, { useState } from "react";
-import DownArrow from "../assets/icons/down-arrow.svg";
 import Search from "../assets/icons/search.svg";
+import { useTheme } from "../App";
+import Dropdown from "./Dropdown";
 
 const Filtering = ({
   countriesData,
   searchQuery,
   setSearchQuery,
+
   selectedRegion,
   setSelectedRegion,
+  selectedSubregion,
+  setSelectedSubregion,
+  sortOrder,
+  setSortOrder,
 }) => {
+  const { isDarkMode } = useTheme();
 
-  const regions = [];
-  countriesData.forEach((country) => {
-    if (!regions.includes(country.region)) {
-      regions.push(country.region);
-    }
-  });
-  regions.unshift('Filter by Region')
+  const regions = [...new Set(countriesData.map((country) => country.region))];
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  const handleSelect = (region) => {
-    setSelectedRegion(region);
-    setIsOpen(false);
+  // Extract subregions based on the selected region
+  const getSubregions = (region) => {
+    const subregions = [
+      ...new Set(
+        countriesData
+          .filter((country) => country.region === region)
+          .map((country) => country.subregion)
+      ),
+    ];
+    console.log("Subregions for region:", region, subregions);
+    return subregions;
   };
+
+  const sortCountries = ['Population low to high','Population high to low','Area low to high','Area high to low']
 
   return (
     <>
       <div className="flex md:pt-4 pb-12 flex-col gap-10 md:gap-0 md:flex-row md:justify-between md:items-center ">
         {/* Search Bar */}
-        <div className="w-full md:w-[35%] relative p-3 px-4 rounded-lg shadow-custom bg-white flex items-center">
-          <img src={Search} className="h-5 w-5 mr-5" />
+        <div
+          className={`w-full md:w-[30%] relative p-3 px-4 rounded-lg shadow-custom flex items-center ${
+            isDarkMode
+              ? "bg-red-700 text-white"
+              : "bg-[hsl(0,0%,100%)] text-black"
+          }`}
+        >
+          <img
+            src={Search}
+            className={`h-5 w-5 mr-5 ${isDarkMode ? "filter invert" : ""}`} // Make icon white in dark mode using filter
+          />
           <input
             type="text"
             placeholder="Search for a country..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-[90%] focus:outline-none"
+            className={`w-[90%] focus:outline-none ${
+              isDarkMode
+                ? "bg-[hsl(209,23%,22%)] text-white"
+                : "bg-[hsl(0,0%,100%)] text-black"
+            }`}
           />
         </div>
 
-        {/* Filter by Region Dropdown */}
-        <div className="w-[60%] md:w-[20%] relative">
-          <div
-            className="p-3 rounded-lg shadow-custom bg-white flex justify-between items-center cursor-pointer"
-            onClick={toggleDropdown}
-          >
-            <span>{selectedRegion}</span>
-            <img src={DownArrow} className="h-5 w-5" />
-          </div>
-        
-          {isOpen && (
-            <div className="absolute top-14 left-0 w-full bg-white rounded-lg shadow-custom py-2 z-10">
-              {regions.map((region, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleSelect(region)}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  {region}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+        {/* Dropdown For Region */}
+        <Dropdown
+          options={regions}
+          selected={selectedRegion}
+          onSelect={(region) => {
+            setSelectedRegion(region)
+            setSelectedSubregion('')
+          }}
+          placeholder={'Filter By Region'}
+          isDarkMode={isDarkMode}
+        />
 
-      
+        {/* Dropdown For Subregion */}
+        {(selectedRegion && selectedRegion!=='Antarctic') ? (
+          
+          <Dropdown
+            options={getSubregions(selectedRegion)}
+            selected={selectedSubregion}
+            onSelect={(subregion) => setSelectedSubregion(subregion)}
+            placeholder={'Filter By Subregion'}
+            isDarkMode={isDarkMode}
+          />
+        ) : (
+          ""
+        )}
+
+        {/* Dropdown For SortCountries */}
+        <Dropdown
+          options={sortCountries}
+          selected={sortOrder}
+          onSelect={(order) => {
+            setSortOrder(order)
+          }}
+          placeholder={'Sort Countries'}
+          isDarkMode={isDarkMode}
+        />
+
+      </div>
     </>
   );
 };
