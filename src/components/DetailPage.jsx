@@ -11,7 +11,9 @@ const DetailPage = () => {
 
   const [country, setCountry] = useState(null);
   console.log(country);
-  const [allCountries, setAllCountries] = useState(location.state?.allCountriesData || []);
+  const [allCountries, setAllCountries] = useState(
+    location.state?.allCountriesData || []
+  );
 
   // Fetch all countries data if not available
   useEffect(() => {
@@ -29,6 +31,7 @@ const DetailPage = () => {
       fetchCountries();
     }
   }, [allCountries]);
+
 
   // Searching country based on countryName typed in URL
   useEffect(() => {
