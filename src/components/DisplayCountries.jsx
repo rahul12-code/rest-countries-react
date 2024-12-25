@@ -9,26 +9,34 @@ const DisplayCountries = ({
   error,
 }) => {
   const { isDarkMode } = useTheme();
-  if (countriesData.length === 0) {
+
+  if (loading)
     return (
       <p className={`text-center font-medium text-[24px] ${
-        isDarkMode?"text-white":""
+        isDarkMode ? "text-white" : ""
       }`}>
+        Loading countries data...
+      </p>
+    );
+
+  if (error)
+    return (
+      <p className={`text-center font-medium text-[24px] ${
+          isDarkMode ? "text-white" : ""
+        }`}>Error: {error}</p>
+    );
+
+  if (countriesData.length === 0) {
+    return (
+      <p
+        className={`text-center font-medium text-[24px] ${
+          isDarkMode ? "text-white" : ""
+        }`}
+      >
         No countries match your criteria!
       </p>
     );
   }
-
-  if (loading)
-    return (
-      <p className="text-center font-medium text-[20px]">
-        Loading countries data...
-      </p>
-    );
-  if (error)
-    return (
-      <p className="text-center font-medium text-[20px]">Error: {error}</p>
-    );
 
   return (
     <>
@@ -38,7 +46,7 @@ const DisplayCountries = ({
             key={index}
             className="w-[90%] md:h-[380px] lg:h-auto shadow-md md:w-full"
             to={`/${country.name?.common}`}
-            state={{ country, allCountriesData }} // Pass country details using the `state` prop
+            state={{ allCountriesData }} // Pass country details using the `state` prop
           >
             <div>
               <img

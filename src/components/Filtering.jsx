@@ -28,7 +28,7 @@ const Filtering = ({
           .map((country) => country.subregion)
       ),
     ];
-    console.log("Subregions for region:", region, subregions);
+    // console.log("Subregions for region:", region, subregions);
     return subregions;
   };
 

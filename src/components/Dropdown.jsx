@@ -3,7 +3,7 @@ import DownArrow from "../assets/icons/down-arrow.svg"; // Path to your icon
 
 const Dropdown = ({ options, selected, onSelect, placeholder, isDarkMode }) => {
 
-    console.log(options);
+    // console.log(options);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);

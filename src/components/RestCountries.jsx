@@ -25,7 +25,7 @@ const RestCountries = () => {
         const data = await response.json();
         setCountriesData(data);
       } catch (err) {
-        console.error("Fetch error:", err);
+        // console.error("Fetch error:", err);
         setError(err.message || "Failed to fetch data.");
       } finally {
         setLoading(false);
