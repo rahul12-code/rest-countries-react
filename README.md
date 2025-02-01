@@ -1,6 +1,6 @@
 # Rest Countries Project 🌍
 
-This project is a fully responsive React application that provides detailed information about countries worldwide. The application is feature-rich, leveraging React.js hooks, Tailwind CSS for styling, and a country API for dynamic data fetching.
+This project is a fully responsive React application that provides detailed information about countries worldwide. The application is feature-rich, leveraging React.js hooks, Tailwind CSS for styling, and a country API for dynamic data fetching. It includes a clean and user-friendly interface, ensuring a seamless browsing experience across all devices.
 
 ---
 
